@@ -17,9 +17,10 @@ int main(int argc, char **argv) {
 
         printf("result: %s", input) ;
         while (strcspn(input, "\n") == strlen(input)) {
-            if (!fgets(input, sizeof(input), stdin))
+            if (!fgets(input, sizeof(input), stdin)) {
                 printf("\n");
                 return 0 ;
+            }
             printf("%s", input);
         }
         printf("\n");        
