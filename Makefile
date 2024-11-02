@@ -15,6 +15,9 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
 
 TARGET = $(BIN_DIR)/lusc
 
+run: all
+	./bin/lusc
+
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
@@ -25,8 +28,5 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	rm -f $(BUILD_DIR)/*.o $(TARGET)
-
-run:
-	./bin/lusc
 
 .PHONY: all clean
