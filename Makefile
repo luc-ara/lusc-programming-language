@@ -1,5 +1,6 @@
 CC = gcc
 CFLAGS = -Iinclude
+LDFLAGS = -lfl
 
 SRC_DIR = src
 BIN_DIR = bin
@@ -21,7 +22,7 @@ run: all
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
-	$(CC) $(OBJ_FILES) -o $@
+	$(CC) $(OBJ_FILES) -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
