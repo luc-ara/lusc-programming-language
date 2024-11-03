@@ -3,3 +3,7 @@
 
 #Ignore executable
 /bin/*
+
+#Ignore flex-generated files
+*.yy.c
+*.yy.h
