@@ -19,21 +19,24 @@ OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(filter-out $(FLEX_SR
 
 TARGET := $(BIN_DIR)/lusc
 
-run: all
-	./bin/lusc
-
 all: $(TARGET)
 
-$(TARGET): $(OBJ_FILES) $(FLEX_OBJ)
+$(TARGET): $(OBJ_FILES) $(FLEX_OBJ) | $(BIN_DIR)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(FLEX_SRC)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(FLEX_SRC) | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(FLEX_SRC) $(FLEX_HEADER): $(FLEX_FILE)
+$(FLEX_SRC) $(FLEX_HEADER): $(FLEX_FILE) | $(BUILD_DIR)
 	flex -o $(FLEX_SRC) --header-file=$(FLEX_HEADER) $<
+
+$(BIN_DIR) $(BUILD_DIR):
+	mkdir -p $@
+
+run: all
+	./bin/lusc
 
 clean:
 	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER)
 
-.PHONY: all clean
+.PHONY: all clean run
