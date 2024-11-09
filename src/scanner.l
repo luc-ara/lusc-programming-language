@@ -88,9 +88,5 @@ STRING          {STRING-CONTENT}({STRING-LINE}{STRING-CONTENT})*
 
 <STR>\"                     {printf("Close quote\n"); BEGIN(INITIAL);}
 
-<INITIAL>.                  {printf("Error: Unidentified sequence\n"); return 0;}
+<INITIAL>.                  {printf("Error: Unidentified character\n"); return 0;}
 <STR>(.|\n)                 {printf("Error: Invalid character inside string\n"); return 0;}
-
-%%
-
-
