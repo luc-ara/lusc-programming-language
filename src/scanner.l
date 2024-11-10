@@ -55,9 +55,9 @@ ESC-SEQ         {ESC-SEQ-ASCII}|{ESC-SEQ-OCT}|{ESC-SEQ-HEX}|{ESC-SEQ-U-4}|{ESC-S
 
 STRING-TEXT     ([^\\\"\'\n])+
 
-COMMENT         ;.*$
+COMMENT         ;.*
 
-STRING-LINE     \\{SPACES}?\n{SPACES}?\\
+STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
 %%
 
 "("                         {printf("Open parenthesis\n");}
@@ -75,9 +75,9 @@ STRING-LINE     \\{SPACES}?\n{SPACES}?\\
 
 {IDENTIFIER}/{DELIMITER}    {printf("Identifier: %s\n", yytext);}
 
-{SPACES}                    {printf("Whitespace\n");}
+{SPACES}                    {;}
 
-{COMMENT}                   {printf("Comment: %s\n", yytext);}
+{COMMENT}                   {;}
 
 \"                          {printf("Open quote\n"); BEGIN(STR);}
 
