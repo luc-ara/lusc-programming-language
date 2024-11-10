@@ -51,16 +51,13 @@ ESC-SEQ-U-4     \\[uU]{HEXIT}{4}
 ESC-SEQ-U-6     \\[uU]00{HEXIT}{6}
 ESC-SEQ-NAME    \\[nN]\{[a-zA-Z0-9 _-]+\}
 
-ESC-SEQ         ESC-SEQ-ASCII|ESC-SEQ-OCT|ESC-SEQ-HEX|ESC-SEQ-U-4|ESC-SEQ-U-6|ESC-SEQ-NAME
+ESC-SEQ         {ESC-SEQ-ASCII}|{ESC-SEQ-OCT}|{ESC-SEQ-HEX}|{ESC-SEQ-U-4}|{ESC-SEQ-U-6}|{ESC-SEQ-NAME}
 
-STRING-CONTENT  ([^\"\'\n]|ESC-SEQ)*
+STRING-TEXT     ([^\\\"\'\n])+
 
 COMMENT         ;.*$
 
-STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
-
-STRING          {STRING-CONTENT}({STRING-LINE}{STRING-CONTENT})*
-
+STRING-LINE     \\{SPACES}?\n{SPACES}?\\
 %%
 
 "("                         {printf("Open parenthesis\n");}
@@ -84,7 +81,11 @@ STRING          {STRING-CONTENT}({STRING-LINE}{STRING-CONTENT})*
 
 \"                          {printf("Open quote\n"); BEGIN(STR);}
 
-<STR>{STRING}               {printf("String begin>>>\n%s\n<<<String end\n", yytext);}
+<STR>{STRING-TEXT}          {printf("String text: %s\n", yytext);}
+
+<STR>{ESC-SEQ}              {printf("Escape Sequence: %s\n", yytext);}
+
+<STR>{STRING-LINE}          {printf("String line break\n");}
 
 <STR>\"                     {printf("Close quote\n"); BEGIN(INITIAL);}
 
