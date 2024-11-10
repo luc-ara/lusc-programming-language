@@ -7,3 +7,7 @@
 #Ignore flex-generated files
 *.yy.c
 *.yy.h
+
+#Ignore test files
+/tests/input.txt
+/tests/output.txt

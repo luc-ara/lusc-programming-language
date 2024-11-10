@@ -33,10 +33,10 @@ $(FLEX_SRC) $(FLEX_HEADER): $(FLEX_FILE) | $(BUILD_DIR)
 $(BIN_DIR) $(BUILD_DIR):
 	mkdir -p $@
 
-run: all
-	./bin/lusc
+test: all
+	./bin/lusc ./tests/input.txt ./tests/output.txt
 
 clean:
 	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER)
 
-.PHONY: all clean run
+.PHONY: all clean test

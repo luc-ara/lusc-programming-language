@@ -60,34 +60,34 @@ COMMENT         ;.*
 STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
 %%
 
-"("                         {printf("Open parenthesis\n");}
-")"                         {printf("Close parenthesis\n");}
+"("                         {fprintf(yyout, "Open parenthesis\n");}
+")"                         {fprintf(yyout, "Close parenthesis\n");}
 
-{BIN-INT}/{DELIMITER}       {printf("Binary Integer: %s\n", yytext);}
-{OCT-INT}/{DELIMITER}       {printf("Octal Integer: %s\n", yytext);}
-{DEC-INT}/{DELIMITER}       {printf("Decimal Integer: %s\n", yytext);}
-{HEX-INT}/{DELIMITER}       {printf("Hexadecimal Integer: %s\n", yytext);}
+{BIN-INT}/{DELIMITER}       {fprintf(yyout, "Binary Integer: %s\n", yytext);}
+{OCT-INT}/{DELIMITER}       {fprintf(yyout, "Octal Integer: %s\n", yytext);}
+{DEC-INT}/{DELIMITER}       {fprintf(yyout, "Decimal Integer: %s\n", yytext);}
+{HEX-INT}/{DELIMITER}       {fprintf(yyout, "Hexadecimal Integer: %s\n", yytext);}
 
-{BIN-NUM}/{DELIMITER}       {printf("Binary Number: %s\n", yytext);}
-{OCT-NUM}/{DELIMITER}       {printf("Octal Number: %s\n", yytext);}
-{DEC-NUM}/{DELIMITER}       {printf("Decimal Number: %s\n", yytext);}
-{HEX-NUM}/{DELIMITER}       {printf("Hexadecimal Number: %s\n", yytext);}
+{BIN-NUM}/{DELIMITER}       {fprintf(yyout, "Binary Number: %s\n", yytext);}
+{OCT-NUM}/{DELIMITER}       {fprintf(yyout, "Octal Number: %s\n", yytext);}
+{DEC-NUM}/{DELIMITER}       {fprintf(yyout, "Decimal Number: %s\n", yytext);}
+{HEX-NUM}/{DELIMITER}       {fprintf(yyout, "Hexadecimal Number: %s\n", yytext);}
 
-{IDENTIFIER}/{DELIMITER}    {printf("Identifier: %s\n", yytext);}
+{IDENTIFIER}/{DELIMITER}    {fprintf(yyout, "Identifier: %s\n", yytext);}
 
 {SPACES}                    {;}
 
 {COMMENT}                   {;}
 
-\"                          {printf("Open quote\n"); BEGIN(STR);}
+\"                          {fprintf(yyout, "Open quote\n"); BEGIN(STR);}
 
-<STR>{STRING-TEXT}          {printf("String text: %s\n", yytext);}
+<STR>{STRING-TEXT}          {fprintf(yyout, "String text: %s\n", yytext);}
 
-<STR>{ESC-SEQ}              {printf("Escape Sequence: %s\n", yytext);}
+<STR>{ESC-SEQ}              {fprintf(yyout, "Escape Sequence: %s\n", yytext);}
 
-<STR>{STRING-LINE}          {printf("String line break\n");}
+<STR>{STRING-LINE}          {fprintf(yyout, "String line break\n");}
 
-<STR>\"                     {printf("Close quote\n"); BEGIN(INITIAL);}
+<STR>\"                     {fprintf(yyout, "Close quote\n"); BEGIN(INITIAL);}
 
-<INITIAL>.                  {printf("Error: Unidentified character\n"); return 0;}
-<STR>(.|\n)                 {printf("Error: Invalid character inside string\n"); return 0;}
+<INITIAL>.                  {fprintf(yyout, "Error: Unidentified character\n"); return 0;}
+<STR>(.|\n)                 {fprintf(yyout, "Error: Invalid character inside string\n"); return 0;}
