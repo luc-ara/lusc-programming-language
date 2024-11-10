@@ -10,13 +10,13 @@ Using nanboxing, every object can be represented by a 64-bit word, allowing effi
 
 ## Requirements
 - **GCC**
+- **Make**
 - **Flex**
 - **Bison**
-- **Make**
 
 ## Installation
 ```
-sudo apt install flex bison
+sudo apt install gcc make flex bison
 git clone git@github.com:luc-ara/lusc-programming-language.git
 cd lusc-programming-language
 make all
