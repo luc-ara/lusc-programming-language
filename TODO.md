@@ -2,5 +2,5 @@
 
 ## Upcoming tasks
 
-[ ] Fix the error with multiline strings
-[ ] Create and write a bison file
+- [ ] Fix the error with multiline strings
+- [ ] Create and write a bison file
