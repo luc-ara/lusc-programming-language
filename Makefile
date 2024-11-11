@@ -1,42 +1,60 @@
 CC := gcc
-CFLAGS := -Iinclude
+CFLAGS := -Iinclude 
 LDFLAGS := -lfl
 
 SRC_DIR := src
 BIN_DIR := bin
 BUILD_DIR := build
-INCLUDE_DIR := include
-DATA_DIR := data
-DOCS_DIR := docs
-LIB_DIR := lib
+INC_DIR := include
 TESTS_DIR := tests
 
 FLEX_FILE := $(SRC_DIR)/scanner.l
 FLEX_SRC := $(SRC_DIR)/scanner.yy.c
 FLEX_OBJ := $(BUILD_DIR)/scanner.yy.o
-FLEX_HEADER := $(INCLUDE_DIR)/scanner.yy.h
-OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(filter-out $(FLEX_SRC), $(wildcard $(SRC_DIR)/*.c)))
+FLEX_HEADER := $(INC_DIR)/scanner.yy.h
+
+BI_FILE := $(SRC_DIR)/parser.y
+BI_SRC := $(SRC_DIR)/parser.tab.c
+BI_OBJ := $(BUILD_DIR)/parser.tab.o
+BI_HEADER := $(INC_DIR)/parser.tab.h
+
+SRC_FILES := $(sort $(wildcard $(SRC_DIR)/*.c) $(FLEX_SRC) $(BISON_SRC))
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
 
 TARGET := $(BIN_DIR)/lusc
 
 all: $(TARGET)
 
-$(TARGET): $(OBJ_FILES) $(FLEX_OBJ) | $(BIN_DIR)
-	$(CC) $^ -o $@ $(LDFLAGS)
+$(TARGET): $(OBJ_FILES) | $(BIN_DIR)
+	$(CC) $(LDFLAGS) -o $@ $^
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(FLEX_SRC) | $(BUILD_DIR)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(FLEX_SRC) $(FLEX_HEADER): $(FLEX_FILE) | $(BUILD_DIR)
-	flex -o $(FLEX_SRC) --header-file=$(FLEX_HEADER) $<
+$(BUILD_DIR)/lusc.o: $(SRC_DIR)/lusc.c $(FLEX_HEADER) | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(FLEX_SRC) $(FLEX_HEADER): $(FLEX_FILE)
+	flex --outfile=$(FLEX_SRC) --header-file=$(FLEX_HEADER) $<
+
+$(BISON_SRC) $(BISON_HEADER): $(BISON_FILE)
+	bison --output=$(BISON_SRC) --header=$(BISON_HEADER) $<
 
 $(BIN_DIR) $(BUILD_DIR):
 	mkdir -p $@
 
 test: all
-	./bin/lusc ./tests/input.txt ./tests/output.txt
+	$(TARGET) $(TESTS_DIR)/input.txt $(TESTS_DIR)/output.txt
 
 clean:
-	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER)
+	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER) $(BISON_SRC) $(BISON_HEADER)
 
-.PHONY: all clean test
+reset:
+	make clean
+	clear
+	make
+
+inspect:
+	echo $(OBJ_FILES)
+
+.PHONY: all clean test reset inspect

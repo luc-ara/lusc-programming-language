@@ -27,10 +27,10 @@ OCTITS          {OCTIT}+
 DIGITS          {DIGIT}+
 HEXITS          {HEXIT}+
 
-BIN-INT         {BIN-BASE}{BITS}
-OCT-INT         {OCT-BASE}{OCTITS}
-DEC-INT         {DEC-BASE}?{DIGITS}
-HEX-INT         {HEX-BASE}{HEXITS}
+BIN-INT         \-?{BIN-BASE}{BITS}
+OCT-INT         \-?{OCT-BASE}{OCTITS}
+DEC-INT         \-?{DEC-BASE}?{DIGITS}
+HEX-INT         \-?{HEX-BASE}{HEXITS}
 
 BIN-NUM         {BIN-INT}\.{BITS}
 OCT-NUM         {OCT-INT}\.{OCTITS}
