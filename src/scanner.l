@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "parser.tab.h"
 %}
 
 %x STR
@@ -60,34 +61,34 @@ COMMENT         ;.*
 STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
 %%
 
-"("                         {fprintf(yyout, "Open parenthesis\n");}
-")"                         {fprintf(yyout, "Close parenthesis\n");}
+"("                         {return LPAREN;}
+")"                         {return RPAREN;}
 
-{BIN-INT}/{DELIMITER}       {fprintf(yyout, "Binary Integer: %s\n", yytext);}
-{OCT-INT}/{DELIMITER}       {fprintf(yyout, "Octal Integer: %s\n", yytext);}
-{DEC-INT}/{DELIMITER}       {fprintf(yyout, "Decimal Integer: %s\n", yytext);}
-{HEX-INT}/{DELIMITER}       {fprintf(yyout, "Hexadecimal Integer: %s\n", yytext);}
+{BIN-INT}/{DELIMITER}       {return INTEGER;}
+{OCT-INT}/{DELIMITER}       {return INTEGER;}
+{DEC-INT}/{DELIMITER}       {return INTEGER;}
+{HEX-INT}/{DELIMITER}       {return INTEGER;}
 
-{BIN-NUM}/{DELIMITER}       {fprintf(yyout, "Binary Number: %s\n", yytext);}
-{OCT-NUM}/{DELIMITER}       {fprintf(yyout, "Octal Number: %s\n", yytext);}
-{DEC-NUM}/{DELIMITER}       {fprintf(yyout, "Decimal Number: %s\n", yytext);}
-{HEX-NUM}/{DELIMITER}       {fprintf(yyout, "Hexadecimal Number: %s\n", yytext);}
+{BIN-NUM}/{DELIMITER}       {return NUMBER;}
+{OCT-NUM}/{DELIMITER}       {return NUMBER;}
+{DEC-NUM}/{DELIMITER}       {return NUMBER;}
+{HEX-NUM}/{DELIMITER}       {return NUMBER;}
 
-{IDENTIFIER}/{DELIMITER}    {fprintf(yyout, "Identifier: %s\n", yytext);}
+{IDENTIFIER}/{DELIMITER}    {return IDENTIFIER;}
 
 {SPACES}                    {;}
 
 {COMMENT}                   {;}
 
-\"                          {fprintf(yyout, "Open quote\n"); BEGIN(STR);}
+\"                          {return LQUOTE;}
 
-<STR>{STRING-TEXT}          {fprintf(yyout, "String text: %s\n", yytext);}
+<STR>{STRING-TEXT}          {return STRING_TEXT;}
 
-<STR>{ESC-SEQ}              {fprintf(yyout, "Escape Sequence: %s\n", yytext);}
+<STR>{ESC-SEQ}              {return ESC_SEQ;}
 
-<STR>{STRING-LINE}          {fprintf(yyout, "String line break\n");}
+<STR>{STRING-LINE}          {;}
 
-<STR>\"                     {fprintf(yyout, "Close quote\n"); BEGIN(INITIAL);}
+<STR>\"                     {return RQUOTE;}
 
 <INITIAL>.                  {fprintf(yyout, "Error: Unidentified character\n"); return 0;}
 <STR>(.|\n)                 {fprintf(yyout, "Error: Invalid character inside string\n"); return 0;}

@@ -13,10 +13,10 @@ FLEX_SRC := $(SRC_DIR)/scanner.yy.c
 FLEX_OBJ := $(BUILD_DIR)/scanner.yy.o
 FLEX_HEADER := $(INC_DIR)/scanner.yy.h
 
-BI_FILE := $(SRC_DIR)/parser.y
-BI_SRC := $(SRC_DIR)/parser.tab.c
-BI_OBJ := $(BUILD_DIR)/parser.tab.o
-BI_HEADER := $(INC_DIR)/parser.tab.h
+BISON_FILE := $(SRC_DIR)/parser.y
+BISON_SRC := $(SRC_DIR)/parser.tab.c
+BISON_OBJ := $(BUILD_DIR)/parser.tab.o
+BISON_HEADER := $(INC_DIR)/parser.tab.h
 
 SRC_FILES := $(sort $(wildcard $(SRC_DIR)/*.c) $(FLEX_SRC) $(BISON_SRC))
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
@@ -34,7 +34,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 $(BUILD_DIR)/lusc.o: $(SRC_DIR)/lusc.c $(FLEX_HEADER) | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(FLEX_SRC) $(FLEX_HEADER): $(FLEX_FILE)
+$(FLEX_SRC) $(FLEX_HEADER): $(FLEX_FILE) $(BISON_HEADER)
 	flex --outfile=$(FLEX_SRC) --header-file=$(FLEX_HEADER) $<
 
 $(BISON_SRC) $(BISON_HEADER): $(BISON_FILE)

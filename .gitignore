@@ -4,9 +4,11 @@
 #Ignore executable
 /bin/*
 
-#Ignore flex-generated files
+#Ignore flex or bison-generated files
 *.yy.c
 *.yy.h
+*.tab.c
+*.tab.h
 
 #Ignore test files
 /tests/input.txt
