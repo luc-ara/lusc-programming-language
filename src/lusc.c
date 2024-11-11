@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "scanner.yy.h"
+#include "lexer.yy.h"
 
 int main(int argc, char **argv) {
 

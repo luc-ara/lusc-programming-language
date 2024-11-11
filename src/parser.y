@@ -8,15 +8,15 @@ void yyerror(const char *s);
 %}
 
 %union {
-    double dvalue;
-    int32_t ivalue;
-    char *svalue;
+    double dval;
+    int32_t ival;
+    char *sval;
 };
 
-%token <ivalue> INTEGER
-%token <dvalue> NUMBER
-%token <svalue> IDENTIFIER
-%token <svalue> STRING_TEXT ESC_SEQ
+%token <ival> INTEGER
+%token <dval> NUMBER
+%token <sval> IDENTIFIER
+%token <sval> STRING_TEXT ESC_SEQ
 %token LPAREN RPAREN
 %token LQUOTE RQUOTE
 

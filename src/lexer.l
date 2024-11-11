@@ -1,5 +1,8 @@
 %{
 #include <stdio.h>
+#include <string.h>
+
+#include "scanner.h"
 #include "parser.tab.h"
 %}
 
@@ -64,17 +67,17 @@ STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
 "("                         {return LPAREN;}
 ")"                         {return RPAREN;}
 
-{BIN-INT}/{DELIMITER}       {return INTEGER;}
-{OCT-INT}/{DELIMITER}       {return INTEGER;}
-{DEC-INT}/{DELIMITER}       {return INTEGER;}
-{HEX-INT}/{DELIMITER}       {return INTEGER;}
+{BIN-INT}/{DELIMITER}       {yylval.ival = bin_to_int(yytext); return INTEGER;}
+{OCT-INT}/{DELIMITER}       {yylval.ival = oct_to_int(yytext); return INTEGER;}
+{DEC-INT}/{DELIMITER}       {yylval.ival = dec_to_int(yytext); return INTEGER;}
+{HEX-INT}/{DELIMITER}       {yylval.ival = hex_to_int(yytext); return INTEGER;}
 
-{BIN-NUM}/{DELIMITER}       {return NUMBER;}
-{OCT-NUM}/{DELIMITER}       {return NUMBER;}
-{DEC-NUM}/{DELIMITER}       {return NUMBER;}
-{HEX-NUM}/{DELIMITER}       {return NUMBER;}
+{BIN-NUM}/{DELIMITER}       {yylval.dval = bin_to_num(yytext); return NUMBER;}
+{OCT-NUM}/{DELIMITER}       {yylval.dval = oct_to_num(yytext); return NUMBER;}
+{DEC-NUM}/{DELIMITER}       {yylval.dval = dec_to_num(yytext); return NUMBER;}
+{HEX-NUM}/{DELIMITER}       {yylval.dval = hex_to_num(yytext); return NUMBER;}
 
-{IDENTIFIER}/{DELIMITER}    {return IDENTIFIER;}
+{IDENTIFIER}/{DELIMITER}    {yylval.sval = strdup(yytext); return IDENTIFIER;}
 
 {SPACES}                    {;}
 
@@ -82,9 +85,14 @@ STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
 
 \"                          {return LQUOTE;}
 
-<STR>{STRING-TEXT}          {return STRING_TEXT;}
+<STR>{STRING-TEXT}          {yylval.sval = strdup(yytext); return STRING_TEXT;}
 
-<STR>{ESC-SEQ}              {return ESC_SEQ;}
+<STR>{ESC-SEQ-ASCII}        {yylval.sval = scan_esc_seq_ascii(yytext); return ESC_SEQ;}
+<STR>{ESC-SEQ-OCT}          {yylval.sval = scan_esc_seq_oct(yytext); return ESC_SEQ;}
+<STR>{ESC-SEQ-HEX}          {yylval.sval = scan_esc_seq_hex(yytext); return ESC_SEQ;}
+<STR>{ESC-SEQ-U-4}          {yylval.sval = scan_esc_seq_u_4(yytext); return ESC_SEQ;}
+<STR>{ESC-SEQ-U-6}          {yylval.sval = scan_esc_seq_u_6(yytext); return ESC_SEQ;}
+<STR>{ESC-SEQ-NAME}         {yylval.sval = scan_esc_seq_name(yytext); return ESC_SEQ;}
 
 <STR>{STRING-LINE}          {;}
 
