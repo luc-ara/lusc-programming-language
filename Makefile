@@ -54,7 +54,4 @@ reset:
 	clear
 	make
 
-inspect:
-	echo $(OBJ_FILES)
-
 .PHONY: all clean test reset inspect
