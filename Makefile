@@ -1,6 +1,6 @@
 CC := gcc
 CFLAGS := -Iinclude 
-LDFLAGS := -lfl
+LDFLAGS := -lfl -lm
 
 SRC_DIR := src
 BIN_DIR := bin
