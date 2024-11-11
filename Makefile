@@ -8,10 +8,10 @@ BUILD_DIR := build
 INC_DIR := include
 TESTS_DIR := tests
 
-FLEX_FILE := $(SRC_DIR)/scanner.l
-FLEX_SRC := $(SRC_DIR)/scanner.yy.c
-FLEX_OBJ := $(BUILD_DIR)/scanner.yy.o
-FLEX_HEADER := $(INC_DIR)/scanner.yy.h
+FLEX_FILE := $(SRC_DIR)/lexer.l
+FLEX_SRC := $(SRC_DIR)/lexer.yy.c
+FLEX_OBJ := $(BUILD_DIR)/lexer.yy.o
+FLEX_HEADER := $(INC_DIR)/lexer.yy.h
 
 BISON_FILE := $(SRC_DIR)/parser.y
 BISON_SRC := $(SRC_DIR)/parser.tab.c

@@ -5,7 +5,8 @@
 - [x] Fix the error with multiline strings
 - [x] Allow comments between linebreaks on strings
 - [x] Add negative numbers to the scanner
-- [ ] Create and write a bison file
+- [x] Create and write a bison file
+- [ ] Write the number scanners
 
 ## Known issues
 
