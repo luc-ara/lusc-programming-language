@@ -1,6 +1,6 @@
 CC := gcc
-CFLAGS := -Iinclude 
-LDFLAGS := -lfl -lm
+CFLAGS := -Iinclude
+LDFLAGS := -lm -lfl 
 
 SRC_DIR := src
 BIN_DIR := bin
@@ -26,7 +26,7 @@ TARGET := $(BIN_DIR)/lusc
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES) | $(BIN_DIR)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@

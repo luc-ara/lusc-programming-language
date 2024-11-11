@@ -55,8 +55,6 @@ ESC-SEQ-U-4     \\[uU]{HEXIT}{4}
 ESC-SEQ-U-6     \\[uU]00{HEXIT}{6}
 ESC-SEQ-NAME    \\[nN]\{[a-zA-Z0-9 _-]+\}
 
-ESC-SEQ         {ESC-SEQ-ASCII}|{ESC-SEQ-OCT}|{ESC-SEQ-HEX}|{ESC-SEQ-U-4}|{ESC-SEQ-U-6}|{ESC-SEQ-NAME}
-
 STRING-TEXT     ([^\\\"\'\n])+
 
 COMMENT         ;.*

@@ -124,7 +124,7 @@ int32_t hex_to_int(char *s){
 
 
 double bin_to_num(char *s){
-    double cur = 0;
+    int cur = 0;
     bool neg = s[0] == '-' ? (cur++,true) : false;
     double result = 0.0;
     int dec_pos = 0;
@@ -151,7 +151,7 @@ double bin_to_num(char *s){
 }
 
 double oct_to_num(char *s){
-    double cur = 0 ;
+    int cur = 0 ;
     bool neg = s[0] == '-' ? (cur++,true) : false ;
     double result = 0.0;
     int dec_pos = 0;
@@ -178,7 +178,7 @@ double oct_to_num(char *s){
 }
 
 double dec_to_num(char *s){
-    double cur = 0 ;
+    int cur = 0 ;
     bool neg = s[0] == '-' ? (cur++,true) : false ;
     double result = 0.0;
     int dec_pos = 0;
@@ -206,7 +206,7 @@ double dec_to_num(char *s){
 }
 
 double hex_to_num(char *s){
-    double cur = 0 ;
+    int cur = 0 ;
     bool neg = s[0] == '-' ? (cur++,true) : false ;
     double result = 0.0;
     int dec_pos = 0;
@@ -234,7 +234,44 @@ double hex_to_num(char *s){
 
 
 char *scan_esc_seq_ascii(char *s){
-    
+    char *result = calloc(2, sizeof(char));
+
+    if (!result) {
+        perror("Memory allocation failure");
+        exit(1);
+    }
+
+    switch(s[1]){
+        case '\\':
+            result[0] = '\\'; break;
+        case '\'':
+            result[0] = '\''; break;
+        case '\"':
+            result[0] = '\"'; break;
+        case '?':
+            result[0] = '\?'; break;
+        case 'a':
+            result[0] = '\a'; break;
+        case 'b':
+            result[0] = '\b'; break;
+        case 'f':
+            result[0] = '\f'; break;
+        case 'n':
+            result[0] = '\n'; break;
+        case 'r':
+            result[0] = '\r'; break;
+        case 't':
+            result[0] = '\t'; break;
+        case 'v':
+            result[0] = '\v'; break;
+        case '0':
+            result[0] = '\0'; break;
+        case 'e':
+            result[0] = '\e'; break;
+    }
+
+    result[1] = '\0';
+    return result;
 }
 
 char *scan_esc_seq_oct(char *s){
