@@ -13,6 +13,7 @@
 #Ignore test files
 /tests/input.txt
 /tests/output.txt
+/tests/test
 
 #Ignore libreoffice .~lock files
 **/.~lock*

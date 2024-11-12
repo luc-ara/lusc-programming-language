@@ -43,8 +43,11 @@ $(BISON_SRC) $(BISON_HEADER): $(BISON_FILE)
 $(BIN_DIR) $(BUILD_DIR):
 	mkdir -p $@
 
-test: all
-	$(TARGET) $(TESTS_DIR)/input.txt $(TESTS_DIR)/output.txt
+$(TESTS_DIR)/test: $(TESTS_DIR)/test.c $(BUILD_DIR)/scanner.o
+	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+
+test: $(TESTS_DIR)/test
+	$(TESTS_DIR)/test
 
 clean:
 	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER) $(BISON_SRC) $(BISON_HEADER)

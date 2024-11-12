@@ -8,7 +8,9 @@
 - [x] Create and write a bison file
 - [x] Write the number scanners
 - [ ] Write the escape sequence scanners
-- [ ] Test the scanners
+- [x] Write tests for the integer scanners
+- [ ] Write tests for the double scanners
+- [ ] Write tests for the escape sequence scanners
 - [ ] Write the C code for the parser
 
 ## Known issues
