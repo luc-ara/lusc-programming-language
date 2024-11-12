@@ -50,7 +50,7 @@ test: $(TESTS_DIR)/test
 	$(TESTS_DIR)/test
 
 clean:
-	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER) $(BISON_SRC) $(BISON_HEADER)
+	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER) $(BISON_SRC) $(BISON_HEADER) $(TESTS_DIR)/test
 
 reset:
 	make clean
