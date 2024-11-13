@@ -1,21 +1,21 @@
 # Ignore object files
 *.o
 
-#Ignore executable
-/bin/*
+# Ignore executable
+bin/*
 
-#Ignore flex or bison-generated files
+# Ignore flex or bison-generated files
 *.yy.c
 *.yy.h
 *.tab.c
 *.tab.h
 
-#Ignore test files
-/tests/input.txt
-/tests/output.txt
-/tests/test
+# Ignore test files
+tests/input.txt
+tests/output.txt
+tests/test
 
-#Ignore libreoffice .~lock files
+# Ignore libreoffice .~lock files
 **/.~lock*
 
 # Ignore .vscode

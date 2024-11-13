@@ -65,15 +65,9 @@ STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
 "("                         {return LPAREN;}
 ")"                         {return RPAREN;}
 
-{BIN-INT}/{DELIMITER}       {yylval.ival = bin_to_int(yytext); return INTEGER;}
-{OCT-INT}/{DELIMITER}       {yylval.ival = oct_to_int(yytext); return INTEGER;}
-{DEC-INT}/{DELIMITER}       {yylval.ival = dec_to_int(yytext); return INTEGER;}
-{HEX-INT}/{DELIMITER}       {yylval.ival = hex_to_int(yytext); return INTEGER;}
+{INT}/{DELIMITER}       {yylval.ival = scan_int(yytext); return INTEGER;}
 
-{BIN-NUM}/{DELIMITER}       {yylval.dval = bin_to_num(yytext); return NUMBER;}
-{OCT-NUM}/{DELIMITER}       {yylval.dval = oct_to_num(yytext); return NUMBER;}
-{DEC-NUM}/{DELIMITER}       {yylval.dval = dec_to_num(yytext); return NUMBER;}
-{HEX-NUM}/{DELIMITER}       {yylval.dval = hex_to_num(yytext); return NUMBER;}
+{NUM}/{DELIMITER}       {yylval.dval = scan_num(yytext); return NUMBER;}
 
 {IDENTIFIER}/{DELIMITER}    {yylval.sval = strdup(yytext); return IDENTIFIER;}
 

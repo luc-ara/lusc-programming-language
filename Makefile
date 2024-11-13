@@ -52,9 +52,4 @@ test: $(TESTS_DIR)/test
 clean:
 	rm -f $(BUILD_DIR)/*.o $(TARGET) $(FLEX_SRC) $(FLEX_HEADER) $(BISON_SRC) $(BISON_HEADER) $(TESTS_DIR)/test
 
-reset:
-	make clean
-	clear
-	make
-
-.PHONY: all clean test reset inspect
+.PHONY: all clean test
