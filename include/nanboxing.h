@@ -1,7 +1,8 @@
 #ifndef NANBOXING_H
 #define NANBOXING_H
 
-#include "types.h"
+#include <stdint.h>
+#include <stddef.h>
 
 // General purpose masks
 #define SIGN_MASK      (0x8000000000000000L)
@@ -84,7 +85,6 @@ typedef union Nanbox_U
 #define as_int(x)     ((int32_t) ((x) & VALUE_MASK))
 #define box_int(x)    ((x) | TYPE_INT)
 
-#include "types.h"
 //String type
 typedef struct Pair_S
 {
