@@ -86,10 +86,21 @@ typedef union Nanbox_U
 
 #include "types.h"
 //String type
+typedef struct Pair_S
+{
+    uint64_t fst;
+    uint64_t snd;
+} Pair_T;
 #define is_string(x)  (((x) & SFLAG_MASK) == TYPE_STRING)
 #define as_string(x)  ((String_T)((x) & ~(NANBOX_MASK | SFLAG_MASK)))
 #define box_string(x) ((uint64_t)(x) | TYPE_STRING)
 
+//Pair type
+typedef struct String_S
+{
+    size_t len;
+    char *str;
+} String_T ;
 #define is_pair(x)  (((x) & SFLAG_MASK) == TYPE_STRING)
 #define as_pair(x)  ((Pair_T)((x) & ~(NANBOX_MASK | SFLAG_MASK)))
 #define box_pair(x) ((uint64_t)(x) | TYPE_PAIR)
