@@ -49,11 +49,13 @@ IDENTIFIER      ({ALPHA}|{PUNCT})({ALPHA}|{PUNCT}|{DIGIT})*
 DELIMITER       {SPACE}|{BRACKET}
 
 ESC-SEQ-ASCII   \\[\\\'\"\?abfnrtv0e]
-ESC-SEQ-OCT     \\{OCTIT}{3}
-ESC-SEQ-HEX     \\[xX]{HEXIT}{2}
-ESC-SEQ-U-4     \\[uU]{HEXIT}{4}
-ESC-SEQ-U-6     \\[uU]00{HEXIT}{6}
-ESC-SEQ-NAME    \\[nN]\{[a-zA-Z0-9 _-]+\}
+ESC-SEQ-OCT     \\[0123]{OCTIT}{2}
+ESC-SEQ-HEX     \\x{HEXIT}{2}
+ESC-SEQ-U-4     \\u{HEXIT}{4}
+ESC-SEQ-U-6     \\U{HEXIT}{8}
+ESC-SEQ-NAME    \\N\{[a-zA-Z0-9 _-]+\}
+
+ESC-SEQ         {ESC-SEQ-ASCII}|{ESC-SEQ-OCT}|{ESC-SEQ-HEX}|{ESC-SEQ-U-4}|{ESC-SEQ-U-6}|{ESC-SEQ-NAME}
 
 STRING-TEXT     ([^\\\"\'\n])+
 
@@ -79,12 +81,13 @@ STRING-LINE     \\{SPACES}?{COMMENT}?\n{SPACES}?\\
 
 <STR>{STRING-TEXT}          {yylval.sval = strdup(yytext); return STRING_TEXT;}
 
-<STR>{ESC-SEQ-ASCII}        {yylval.sval = scan_esc_seq_ascii(yytext); return ESC_SEQ;}
-<STR>{ESC-SEQ-OCT}          {yylval.sval = scan_esc_seq_oct(yytext); return ESC_SEQ;}
-<STR>{ESC-SEQ-HEX}          {yylval.sval = scan_esc_seq_hex(yytext); return ESC_SEQ;}
-<STR>{ESC-SEQ-U-4}          {yylval.sval = scan_esc_seq_u_4(yytext); return ESC_SEQ;}
-<STR>{ESC-SEQ-U-6}          {yylval.sval = scan_esc_seq_u_6(yytext); return ESC_SEQ;}
-<STR>{ESC-SEQ-NAME}         {yylval.sval = scan_esc_seq_name(yytext); return ESC_SEQ;}
+<STR>{ESC-SEQ}              {if (!(yylval.sval = calloc(5, sizeof(char))))
+                                {
+                                    perror("yylex: Allocation failure\n");
+                                    exit(1);
+                                };
+                             scan_esc_seq(yytext, yylval.sval);
+                             return ESC_SEQ;}
 
 <STR>{STRING-LINE}          {;}
 
