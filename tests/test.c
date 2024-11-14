@@ -4,6 +4,7 @@
 
 #include "scanner.h"
 #include "nanboxing.h"
+#include "strings.h"
 
 static void print_str(char *s) //Used to inspect utf-8 byte sequences
 {
@@ -56,7 +57,9 @@ void test_scan_esc_seq(char *input, char *expected)
 int main(void)
 {
     //write tests here
+    uint64_t new;
 
+    print_string(new_string("abcdefgh"));
 
     return 0;
 }

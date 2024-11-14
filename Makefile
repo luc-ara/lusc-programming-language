@@ -43,7 +43,7 @@ $(BISON_SRC) $(BISON_HEADER): $(BISON_FILE)
 $(BIN_DIR) $(BUILD_DIR):
 	mkdir -p $@
 
-$(TESTS_DIR)/test: $(TESTS_DIR)/test.c $(BUILD_DIR)/scanner.o
+$(TESTS_DIR)/test: $(TESTS_DIR)/test.c $(BUILD_DIR)/scanner.o $(BUILD_DIR)/strings.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 test: $(TESTS_DIR)/test
