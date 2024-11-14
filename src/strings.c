@@ -22,3 +22,17 @@ void print_string(uint64_t s)
 {
     printf("%.*s\n", (int)as_string(s)->len, as_string(s)->chars);
 }
+
+uint64_t concatenate_string(uint64_t s1, uint64_t s2)
+{
+    String_T *new = calloc(1, sizeof(String_T));
+
+    new->len = get_len_string(s1) + get_len_string(s2);
+    new->chars = calloc(new->len, sizeof(char));
+
+    memcpy(new->chars, get_chars_string(s1), get_len_string(s1));
+    memcpy(new->chars+get_len_string(s1), get_chars_string(s2), get_len_string(s2));
+
+    return box_string(new);
+}
+
