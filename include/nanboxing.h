@@ -34,12 +34,12 @@
 #define SFLAG_MASK_F    (0x8007000000000000L)
 
 // Type masks
-#define TYPE_ERROR     (0x0000000000000000L | SFLAG_MASK_0 | NANBOX_MASK)
 #define TYPE_NIL       (0x0000000100000000L | SFLAG_MASK_0 | NANBOX_MASK)
 #define TYPE_BOOLEAN   (0x0000000200000000L | SFLAG_MASK_0 | NANBOX_MASK)
 #define TYPE_COMP      (0x0000000300000000L | SFLAG_MASK_0 | NANBOX_MASK)
 #define TYPE_CHAR      (0x0000000400000000L | SFLAG_MASK_0 | NANBOX_MASK)
 #define TYPE_INT       (0x0000000500000000L | SFLAG_MASK_0 | NANBOX_MASK) 
+#define TYPE_ERROR     (0x0000FFFF00000000L | SFLAG_MASK_0 | NANBOX_MASK)
 #define TYPE_STRING    (SFLAG_MASK_1 | NANBOX_MASK)
 #define TYPE_PAIR      (SFLAG_MASK_2 | NANBOX_MASK)
 
@@ -55,6 +55,12 @@ typedef union Nanbox_U
 #define is_double(x)   (!is_nanbox(x))
 #define as_double(x)   (((Nanbox_T){.n = (x)}).d)
 #define box_double(x)  (((Nanbox_T){.d = (x)}).n)
+
+// Error type
+#define is_error(x)    (((x) & (TYPE_MASK | SFLAG_MASK)) == TYPE_ERROR)
+
+#define ERROR_ALLOC    (0x0000000000000001L | TYPE_ERROR)
+#define ERROR_TYPE     (0x0000000000000002L | TYPE_ERROR)
 
 // NIL type
 #define NIL            (TYPE_NIL)
@@ -86,24 +92,13 @@ typedef union Nanbox_U
 #define box_int(x)    ((x) | TYPE_INT)
 
 //String type
-typedef struct String_S
-{
-    size_t len;
-    char *chars;
-} String_T ;
 #define is_string(x)  (((x) & SFLAG_MASK) == TYPE_STRING)
-#define as_string(x)  ((String_T *)((x) & ~(NANBOX_MASK | SFLAG_MASK)))
+#define as_string(x)  ((struct String_S *)((x) & ~(NANBOX_MASK | SFLAG_MASK)))
 #define box_string(x) ((uint64_t)(x) | TYPE_STRING)
 
 //Pair type
-typedef struct Pair_S
-{
-    uint64_t fst;
-    uint64_t snd;
-} Pair_T;
-
 #define is_pair(x)  (((x) & SFLAG_MASK) == TYPE_STRING)
-#define as_pair(x)  ((Pair_T *)((x) & ~(NANBOX_MASK | SFLAG_MASK)))
+#define as_pair(x)  ((struct Pair_S *)((x) & ~(NANBOX_MASK | SFLAG_MASK)))
 #define box_pair(x) ((uint64_t)(x) | TYPE_PAIR)
 
 #endif

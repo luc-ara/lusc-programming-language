@@ -10,8 +10,9 @@ static void print_str(char *s) //Used to inspect utf-8 byte sequences
 {
     for(int i = 0; i < strlen(s); ++i)
     {
-        printf("%d ", (char) s[i]);
+        printf("%2x ", (unsigned char) s[i]);
     }
+    putchar('\n');
 }
 
 static void print_bitstring(uint64_t v) //used to inspect nanboxed values

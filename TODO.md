@@ -6,6 +6,7 @@
 - [ ] Update the lexer according to the new scanner functions
 - [ ] Test the nanboxing for strings and pairs
 - [ ] Write functions for strings and pairs
+- [ ] Make the string functions work for utf-8
 
 ## Known issues
 
