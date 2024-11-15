@@ -4,7 +4,6 @@
 
 #include "scanner.h"
 #include "nanboxing.h"
-#include "strings.h"
 
 static void print_str(char *s) //Used to inspect utf-8 byte sequences
 {
